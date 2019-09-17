@@ -1,30 +1,42 @@
 import random
 import string
 import os
+import curses
 from zhon import hanzi
 
 
 TEXTS = ["磨杵作针", "精卫填海", "刻舟求剑", "自相矛盾", "揠苗助长",
         "守株待兔", "伯乐相马", "画蛇添足"]
 TEXT_PATH = "texts/"
+ENTER_KEY = 10  # The code for the Enter key in 
 
 
-def list_texts(texts):
-    print("课文如下：")
-    print("\t0 - ［随机］")
+def list_texts(texts, stdscr):
+    stdscr.addstr("课文如下：\n")
+    stdscr.addstr("\t0 - ［随机］\n")
     for i in range(len(TEXTS)):
-        print("\t%d - %s" % (i+1, TEXTS[i]))
-
-    pass
+        stdscr.addstr("\t%d - %s\n" % (i+1, TEXTS[i]))
 
 
-def get_selection():
+def get_selection(stdscr):
     while True:
-        selection = input("请您选择一篇课文：")
+        stdscr.addstr("请您选择一篇课文：")
+        stdscr.refresh()
+        curses.echo()
+        selection = ''
+        while True:
+            c = stdscr.getkey()
+            if c == '\n':
+                break
+            else:
+                selection += c
+        curses.noecho()
         if any(char not in string.digits for char in selection):
-            print("请您输入数码")
+            stdscr.addstr("请您输入数码")
+            stdscr.refresh()
         elif int(selection) >= len(TEXTS) or int(selection) < 0:
-            print("请您输入以上选择之内的数码")  # TODO: fix this Chinese
+            stdscr.addstr("请您输入以上选择之内的数码")  # TODO: fix this Chinese
+            stdscr.refresh()
         else:
             return int(selection)
 
@@ -46,25 +58,25 @@ def break_text(text):
     return breaks
 
 
-def display(message, *args, **kwargs):
-    user_in = input(message, *args, **kwargs).lower()
-    print(message, end='')
-    os.system('read -n 1') # TODO: worry about portability
+def main(stdscr):
+    while True:
+        try:
+            list_texts(TEXTS, stdscr)
+            text_index = get_selection(stdscr)
+            if text_index == 0:
+                text_index = random.randrange(len(TEXTS))
+            text_number = text_index+1
+            text = load_text(text_index)
+            breaks = break_text(text)
+            stdscr.addstr("课文号：%d\n" % (text_number,))
+            stdscr.refresh()
+            for i in range(len(breaks)-1):
+                stdscr.getch()
+                stdscr.addstr(text[breaks[i]:breaks[i+1]])
+                stdscr.refresh()
+        except KeyboardInterrupt:
+            break
+    stdscr.addstr("再见")
 
 
-while True:
-    try:
-        list_texts(TEXTS)
-        text_index = get_selection()
-        if text_index == 0:
-            text_index = random.randrange(len(TEXTS))
-        text_number = text_index+1
-        text = load_text(text_index)
-        breaks = break_text(text)
-        display("课文号：%d" % (text_number,))
-        for i in range(len(breaks)-1):
-            display(text[breaks[i]:breaks[i+1]])
-
-    except KeyboardInterrupt:
-        break
-print("再见")
+curses.wrapper(main)
