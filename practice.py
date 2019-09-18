@@ -62,10 +62,11 @@ def main(stdscr):
     while True:
         try:
             list_texts(TEXTS, stdscr)
-            text_index = get_selection(stdscr)
-            if text_index == 0:
+            text_number = get_selection(stdscr)
+            if text_number == 0:
                 text_index = random.randrange(len(TEXTS))
-            text_number = text_index+1
+                text_number = text_index+1
+            text_index = text_number-1
             text = load_text(text_index)
             breaks = break_text(text)
             stdscr.addstr("课文号：%d\n" % (text_number,))
