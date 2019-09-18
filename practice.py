@@ -71,6 +71,9 @@ def main(stdscr):
             breaks = break_text(text)
             stdscr.addstr("课文号：%d\n" % (text_number,))
             stdscr.refresh()
+            stdscr.getch()
+            stdscr.addstr("课题：%s\n" % (TEXTS[text_index],))
+            stdscr.refresh()
             for i in range(len(breaks)-1):
                 stdscr.getch()
                 stdscr.addstr(text[breaks[i]:breaks[i+1]])
