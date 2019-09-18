@@ -32,10 +32,10 @@ def get_selection(stdscr):
                 selection += c
         curses.noecho()
         if any(char not in string.digits for char in selection):
-            stdscr.addstr("请您输入数码")
+            stdscr.addstr("请您输入数码\n")
             stdscr.refresh()
         elif int(selection) >= len(TEXTS) or int(selection) < 0:
-            stdscr.addstr("请您输入以上选择之内的数码")  # TODO: fix this Chinese
+            stdscr.addstr("请您输入以上选择之内的数码\n")  # TODO: fix this Chinese
             stdscr.refresh()
         else:
             return int(selection)
