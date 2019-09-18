@@ -36,7 +36,7 @@ def get_selection(stdscr):
         if any(char not in string.digits for char in selection):
             stdscr.addstr("请您输入数码\n")
             stdscr.refresh()
-        elif int(selection) >= len(TEXTS) or int(selection) < 0:
+        elif not (0 <= int(selection) <= len(TEXTS)):
             stdscr.addstr("请您输入以上选择之内的数码\n")  # TODO: fix this Chinese
             stdscr.refresh()
         else:
