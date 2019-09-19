@@ -25,13 +25,7 @@ def get_selection(stdscr):
         stdscr.addstr("请您选择一篇课文：")
         stdscr.refresh()
         curses.echo()
-        selection = ''
-        while True:
-            c = stdscr.getkey()
-            if c == '\n':
-                break
-            else:
-                selection += c
+        selection = stdscr.getstr().decode()
         curses.noecho()
         if any(char not in string.digits for char in selection) or not selection:
             stdscr.addstr("请您输入数码\n")
