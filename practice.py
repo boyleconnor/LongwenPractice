@@ -33,7 +33,7 @@ def get_selection(stdscr):
             else:
                 selection += c
         curses.noecho()
-        if any(char not in string.digits for char in selection):
+        if any(char not in string.digits for char in selection) or not selection:
             stdscr.addstr("请您输入数码\n")
             stdscr.refresh()
         elif not (0 <= int(selection) <= len(TEXTS)):
