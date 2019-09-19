@@ -14,7 +14,7 @@ ENTER_KEY = 10  # The code for the Enter key in
 
 
 def list_texts(texts, stdscr):
-    stdscr.addstr("课文如下：\n")
+    stdscr.addstr("\n课文如下：\n")
     stdscr.addstr("\t0 - ［随机］\n")
     for i in range(len(TEXTS)):
         stdscr.addstr("\t%d - %s\n" % (i+1, TEXTS[i]))
