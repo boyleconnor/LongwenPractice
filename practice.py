@@ -61,6 +61,7 @@ def break_text(text):
 
 
 def main(stdscr):
+    stdscr.scrollok(True)
     while True:
         try:
             list_texts(TEXTS, stdscr)
