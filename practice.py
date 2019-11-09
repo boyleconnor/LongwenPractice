@@ -75,6 +75,7 @@ def main(stdscr):
                 stdscr.getch()
                 stdscr.addstr(text[breaks[i]:breaks[i+1]])
                 stdscr.refresh()
+            stdscr.getch()
         except KeyboardInterrupt:
             break
     stdscr.addstr("再见")
